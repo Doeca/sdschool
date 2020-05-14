@@ -52,7 +52,7 @@
         // 30, // get_record
         //101, // send_group_message
         //103, // send_discuss_message
-        106, // send_private_message
+        106 // send_private_message
         // 110, // send_like
         // 120, // set_group_kick
         // 121, // set_group_ban
