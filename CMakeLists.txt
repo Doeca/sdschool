@@ -17,6 +17,7 @@ cq_set_app_id(${APP_ID}) # 设置 app id, 必须
 
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp) # 递归搜索 src 目录中的源文件, 可根据实际情况修改
 
+
 if (CQ_CAN_BUILD_STD_MODE)
     cq_add_std_app(${SOURCE_FILES}) # 添加 std 模式的动态链接库构建目标
     target_link_libraries(app cpr)
