@@ -1,3 +1,4 @@
+#pragma once
 #include <cqcppsdk/cqcppsdk.h>
 #include <dolores/dolores.hpp>
 #include <fstream>
@@ -40,12 +41,11 @@ namespace strhandle {
     void str2file(string data, string path) {
         ofstream fp;
         fp.open(path);
-        fp << data;
+        fp << data.data();
         fp.close();
     }
 
     string file2str(string path) {
-        cout << path << endl;
         ifstream fp(cq::utils::ansi(path));
         if (!fp) {
             throw "🤔您还没有绑定七天学堂账号哦，请发送 .ebind 账号 密码";
@@ -53,5 +53,16 @@ namespace strhandle {
         ostringstream tmp;
         tmp << fp.rdbuf();
         return tmp.str();
+    }
+
+    string cnstr(string raw) {
+        string res = "";
+        for (int i = 0; i < raw.size(); i++) {
+            if (raw[i] < 0)
+                res += 256 + raw[i];
+            else
+                res += raw[i];
+        }
+        return res;
     }
 } // namespace strhandle
