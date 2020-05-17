@@ -22,7 +22,7 @@ dolores_on_message("绑定账号", startswith(".ebind")) {
         Writer<StringBuffer> writer(str_buff);
         doc.Accept(writer);
         strhandle::str2file(str_buff.GetString(), strhandle::user_dir(current) + "account.json");
-        current.send("绑定成功！");
+        current.send("🤩绑定成功！");
     } catch (string info) {
         current.send(info);
     } catch (const char* info) {
@@ -62,6 +62,7 @@ dolores_on_message("查询成绩", startswith(".egrades")) {
         d.Parse(fs.c_str());
 
         sdschool::api api(d["account"].GetString(), d["password"].GetString());
+        current.send("👌稍等，正在查询");
         current.send(api.examGrades(stoi(para[0])));
     } catch (string info) {
         current.send(info);

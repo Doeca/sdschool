@@ -3,10 +3,10 @@
     "ret": 1,
     "apiver": 9,
     "name": "七天学堂",
-    "version": "1.0.0",
+    "version": "1.0",
     "version_id": 1,
     "author": "Doeca",
-    "description": "填写你的应用描述",
+    "description": "提供完善的成绩查询功能，来源 七天学堂",
     "event": [ // 可以修改 priority 来调整插件的优先级, 其它字段不可修改, 否则将无法使用
         {
             "id": 1003,

@@ -1,5 +1,23 @@
-# CoolQ C++ SDK 项目模板
+# phy
 
-[![Build Status](https://img.shields.io/appveyor/ci/richardchien/cqcppsdk-template.svg)](https://ci.appveyor.com/project/richardchien/cqcppsdk-template)
+为 银川一中 学子提供的便利QQ机器人
 
-本仓库是 [CoolQ C++ SDK](https://github.com/cqmoe/cqcppsdk) 的项目模板，提供了基本的目录结构、CMake 配置、持续集成配置、安装脚本等，使用方法请参考 [CoolQ C++ SDK 文档](https://cqcppsdk.cqp.moe/)。
+![头像](http://q.qlogo.cn/g?b=qq&nk=3155506801&s=100)
+
+
+手机浏览请点击左下角的绿色按钮查看目录
+
+如图所示：![2020-05-17-16-52-49-2020517165250](http://cdn.doeca.cc/images/2020-05-17-16-52-49-2020517165250.png)
+
+## 关于私聊
+
+本人不会登陆phy的账号查看消息，仅偶尔登陆空间发布通知说说，所以有事请在phy的空间评论或者联系我的QQ 1124468334
+
+## 关于好友人数
+
+截止2020年5月17日，phy的好友人数据统计已有1700余人，据设想phy的空间也是很好的信息发布平台。<br>目前在制作一个bot墙的功能，可以自助投稿内容，自助发布，预计于6月底上线。
+
+## 运营说明
+
+目前phy由 2021届1班 YYZ 独自运营<br>
+相关代码均在[Github](https://github.com/Doeca)上开源

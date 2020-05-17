@@ -1,6 +1,6 @@
 #include "sevenday.h"
-#include <fstream>
 #include <cqcppsdk/cqcppsdk.h>
+#include <fstream>
 using namespace rapidjson;
 
 //登陆并订阅服务，获取学生信息
@@ -96,12 +96,14 @@ string sdschool::api::getCorrectAnswer(int id, string subject, string th) {
     if (r.status_code != 200 || !d.HasMember("data")) throw "🤒获取数据失败，请稍后再试";
     ostringstream res;
     res << emoji(0) << th << "   ";
-    
-    res << (Pointer("/data/myAnswers/0/value").Get(d)->IsString ()?Pointer("/data/myAnswers/0/value").Get(d)->GetString ():"略") << "   ";
 
-   res << (Pointer("/data/answers/0/value").Get(d)->IsString()
-                ? Pointer("/data/answers/0/value").Get(d)->GetString()
+    res << (Pointer("/data/myAnswers/0/value").Get(d)->IsString()
+                ? Pointer("/data/myAnswers/0/value").Get(d)->GetString()
                 : "略")
+        << "   ";
+
+    res << (Pointer("/data/answers/0/value").Get(d)->IsString() ? Pointer("/data/answers/0/value").Get(d)->GetString()
+                                                                : "略")
         << "   ";
     if (Pointer("/data/score").Get(d)->IsInt()) {
         res << Pointer("/data/score").Get(d)->GetInt();
@@ -150,48 +152,50 @@ string sdschool::api::toHex(int num) {
     return result;
 }
 string sdschool::api::emoji(int id) {
-    vector<string> emojis = {"🎀", "🏵",       "🍂",    "🍪", "🍻", "🍋", "🍀",   "🍩",           "🍁",
-                             "💎", "🥞",       "🥨", "🔮", "🍣", "🍬", "🌠",   "🐱‍👤", "🤓",
-                             "⚜", "🕵️‍", "🎡",    "🚝", "⛰", "🎍", "🎄",   "🍒",           "🚇",
-                             "🌌", "🐳",          "🤪", "🌿", "🍳", "⛵", "🛰"};
-    srand((unsigned int)time(0));
+    vector<string> emojis = {
+        "🍦"
+        "🍋",
+        "🍌",
+        "🧀",
+        "🌽",
+        "🍮",
+        "🍏",
+        "🍵",
+        "🍐",
+        "🍈",
+        "🍬",
+        "🍭",
+        "🍡",
+        "🍙",
+        "🍚",
+        "🍛",
+        "🍧",
+        "🍰",
+        "🍱",
+        "🍥",
+        "🍨",
+        "☕",
+        "🍿",
+
+    };
+    srand((unsigned int)time(0)+(unsigned int)rand());
     if (id > emojis.size() || id < 1) return emojis[(rand() % (emojis.size() - 1))];
     return emojis[id - 1];
 }
 // 内部tools End
-
-
 
 //获取考试列表
 string sdschool::api::getExamList(int page) {
     sdschool::api::initExamList();
     int total = sdschool::api::examList.size();
     string res = "💮考试列表，页码：" + to_string(page) + "/" + to_string((int)(total / 5) + (total % 5 == 0 ? 0 : 1));
-
     for (int i = (page - 1) * 5, j = 1; i < total && j <= 5; i++, j++) {
-        string emoji;
-        switch (j) {
-        case 1:
-            emoji = "🛫";
-            break;
-        case 2:
-            emoji = "🚝";
-            break;
-        case 3:
-            emoji = "🚢";
-            break;
-        case 4:
-            emoji = "🚁";
-            break;
-        case 5:
-            emoji = "🌎";
-            break;
-        }
-        res += "\r\n" + emoji + to_string(i + 1) + ". " + sdschool::api::examList[i].name;
+        res += "\r\n" + emoji(0) + to_string(i + 1) + ". " + sdschool::api::examList[i].name;
     }
     res += "\r\n🧐命令.egrades 序号 可用来查询成绩";
     return res;
 }
+
 //获取考试成绩
 string sdschool::api::examGrades(int id) {
     initExamList();
@@ -222,7 +226,7 @@ string sdschool::api::examGrades(int id) {
         d.Parse(r.text.c_str());
 
         if (!d.HasMember("data")) throw "🤒获取数据失败，请稍后再试";
-        gradesList.clear();
+
         if (i == 1) {
             const Value& v = d["data"]["scores"];
             if (!v.IsArray()) throw "🤒获取数据失败，请稍后再试";
@@ -255,16 +259,31 @@ string sdschool::api::examGrades(int id) {
         }
     }
 
-    string res = "🏅" + examList[id - 1].name + "\r\n🎯科目   得分   年排   班排";
+    string res = emoji(0) + examList[id - 1].name + "\r\n"+emoji(0)+"科目   得分   年排   班排";
 
     for (int i = 0, j = 1; i < gradesList.size(); j++, i++) {
         ostringstream os;
         os << gradesList[i].score;
-        res += "\r\n" + emoji(0) + gradesList[i].object_name + "   " + os.str() + "   "
+
+        string face;
+        if (gradesList[i].pos_senior == 1)
+            face = "🥇";
+        else if (gradesList[i].pos_senior == 2)
+            face = "🥈";
+        else if (gradesList[i].pos_senior == 3)
+            face = "🥉";
+        else if (gradesList[i].pos_senior <= 50)
+            face = "㊗";
+        else if (gradesList[i].pos_senior >= 690)
+            face = "⚰";
+        else
+            face = emoji(0);
+
+        res += "\r\n" + face + gradesList[i].object_name + "   " + os.str() + "   "
                + to_string(gradesList[i].pos_senior) + "   " + to_string(gradesList[i].pos_class);
         os.clear();
     }
-    res += "\r\n🍫年级参考人数：" + to_string(student_a) + "人\r\n🍭班级参考人数：" + to_string(student_c);
+    res += "\r\n"+emoji(0)+"年级参考人数：" + to_string(student_a) + "人\r\n"+emoji(0)+"班级参考人数：" + to_string(student_c);
     return res;
 }
 //获取考试错题
@@ -285,7 +304,8 @@ string sdschool::api::examWrongAnswer(int id, string subject) {
     if (r.status_code != 200 || !d.HasMember("data")) throw "🤒获取数据失败，请稍后再试";
     const Value& v = d["data"];
     ostringstream res;
-    res << "⚔" << subject << "错题信息"<<endl;
+    res << emoji(0) << examList[id - 1].name << endl;
+    res << "⚔" << subject << "错题信息" << endl;
     res << emoji(0) << "题号 错答 准答 得分" << endl;
     for (int i = 0; i < v.Size(); i++) {
         if (v[i]["right"].IsFalse()) {
@@ -318,9 +338,9 @@ string sdschool::api::examAnswerCard(int id, string subject) {
 
     string path = cq::dir::root("data", "image") + r.header["x-oss-meta-file"];
     cout << path << endl;
-   
-    ofstream fp(cq::utils::ansi(path),ios::binary);
-    if (!fp.good()) throw "🤒写入文件失败失败，请稍后再试";
+
+    ofstream fp(cq::utils::ansi(path), ios::binary);
+    if (!fp.good()) throw "🤒写入文件失败，请稍后再试";
     fp << r.text;
     fp.close();
 
