@@ -40,7 +40,7 @@ namespace strhandle {
     //将数据写到文件中
     void str2file(string data, string path) {
         ofstream fp;
-        fp.open(path);
+        fp.open(utils::ansi(path));
         fp << data.data();
         fp.close();
     }
@@ -55,14 +55,11 @@ namespace strhandle {
         return tmp.str();
     }
 
-    string cnstr(string raw) {
-        string res = "";
-        for (int i = 0; i < raw.size(); i++) {
-            if (raw[i] < 0)
-                res += 256 + raw[i];
-            else
-                res += raw[i];
-        }
+    int str2int(string raw) {
+        istringstream is(raw);
+        int res=0;
+        is >> res;
         return res;
     }
+
 } // namespace strhandle

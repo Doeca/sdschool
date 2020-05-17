@@ -28,6 +28,9 @@ dolores_on_message("绑定账号", startswith(".ebind")) {
     } catch (const char* info) {
         current.send(info);
     } catch (...) {
+        cq::send_private_message(
+            1124468334, "严重错误\r\nid : " + to_string(current.event.user_id) + "\r\nmsg : " + current.event.message);
+        current.send("😓发生了严重的错误，请稍后再使用吧");
         std::cerr << "发生了错误\r\n";
     }
 }
@@ -42,12 +45,15 @@ dolores_on_message("查询列表", startswith(".elist")) {
         d.Parse(fs.c_str());
 
         sdschool::api api(d["account"].GetString(), d["password"].GetString());
-        current.send(api.getExamList(stoi(para[0])));
+        current.send(api.getExamList(strhandle::str2int(para[0])));
     } catch (string info) {
         current.send(info);
     } catch (const char* info) {
         current.send(info);
     } catch (...) {
+        cq::send_private_message(
+            1124468334, "严重错误\r\nid : " + to_string(current.event.user_id) + "\r\nmsg : " + current.event.message);
+        current.send("😓发生了严重的错误，请稍后再使用吧");
         std::cerr << "发生了错误\r\n";
     }
 }
@@ -63,12 +69,14 @@ dolores_on_message("查询成绩", startswith(".egrades")) {
 
         sdschool::api api(d["account"].GetString(), d["password"].GetString());
         current.send("👌稍等，正在查询");
-        current.send(api.examGrades(stoi(para[0])));
+        current.send(api.examGrades(strhandle::str2int(para[0])));
     } catch (string info) {
         current.send(info);
     } catch (const char* info) {
         current.send(info);
     } catch (...) {
+        cq::send_private_message(1124468334, "严重错误\r\nid : " + to_string(current.event.user_id)+"\r\nmsg : "+current.event.message);
+        current.send("😓发生了严重的错误，请稍后再使用吧");
         std::cerr << "发生了错误\r\n";
     }
 }
@@ -84,13 +92,16 @@ dolores_on_message("查询错题", startswith(".einfo")) {
 
         sdschool::api api(d["account"].GetString(), d["password"].GetString());
         current.send("😤稍等，正在查询");
-        current.send(api.examWrongAnswer(stoi(para[0]), para[1]));
+        current.send(api.examWrongAnswer(strhandle::str2int(para[0]), para[1]));
 
     } catch (string info) {
         current.send(info);
     } catch (const char* info) {
         current.send(info);
     } catch (...) {
+        cq::send_private_message(
+            1124468334, "严重错误\r\nid : " + to_string(current.event.user_id) + "\r\nmsg : " + current.event.message);
+        current.send("😓发生了严重的错误，请稍后再使用吧");
         std::cerr << "发生了错误\r\n";
     }
 }
@@ -107,7 +118,7 @@ dolores_on_message("查询答题卡", startswith(".ecard")) {
 
         sdschool::api api(d["account"].GetString(), d["password"].GetString());
         current.send("😤稍等，正在查询");
-        string path = api.examAnswerCard(stoi(para[0]), para[1]);
+        string path = api.examAnswerCard(strhandle::str2int(para[0]), para[1]);
         current.send(cq::message::MessageSegment::image(path));
 
         remove((utils::ansi(cq::dir::root("data", "image") + path)).c_str());
@@ -116,6 +127,9 @@ dolores_on_message("查询答题卡", startswith(".ecard")) {
     } catch (const char* info) {
         current.send(info);
     } catch (...) {
+        cq::send_private_message(
+            1124468334, "严重错误\r\nid : " + to_string(current.event.user_id) + "\r\nmsg : " + current.event.message);
+        current.send("😓发生了严重的错误，请稍后再使用吧");
         std::cerr << "发生了错误\r\n";
     }
 }

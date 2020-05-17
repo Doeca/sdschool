@@ -153,7 +153,7 @@ string sdschool::api::toHex(int num) {
 }
 string sdschool::api::emoji(int id) {
     vector<string> emojis = {
-        "🍦"
+        "🍦",
         "🍋",
         "🍌",
         "🧀",
